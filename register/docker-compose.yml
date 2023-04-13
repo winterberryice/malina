@@ -4,14 +4,30 @@ services:
   registry:
     image: registry:2
     ports:
-      - "5000:5000"
-    # environment:
-    #   REGISTRY_AUTH: htpasswd
-    #   REGISTRY_AUTH_HTPASSWD_REALM: Registry
-    #   REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
-    #   REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+      - 5000:5000
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
     volumes:
       - ./auth:/auth
       - ./data:/data
-      - ./config.yml:/etc/docker/registry/config.yml
     restart: unless-stopped
+    networks:
+      - registry-ui-net
+  ui:
+    image: joxit/docker-registry-ui:2
+    ports:
+      - 5001:80
+    environment:
+      - REGISTRY_TITLE=My Private Docker Registry
+      - NGINX_PROXY_PASS_URL=http://registry:5000
+      - SINGLE_REGISTRY=true
+    depends_on:
+      - registry
+    networks:
+      - registry-ui-net
+
+networks:
+  registry-ui-net:

@@ -13,5 +13,6 @@ services:
     volumes:
       - ./auth:/auth
       - ./data:/data
+      - ./config.yml:/etc/docker/registry/config.yml
     restart: unless-stopped
 

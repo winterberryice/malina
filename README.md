@@ -1,11 +1,13 @@
-### Portainer
+# Raspberry pi config
+
+## Portainer
 
 ```sh
 cd ./portainer
 sudo docker-compose up -d
 ```
 
-### Register
+## Register
 
 install dependencies
 

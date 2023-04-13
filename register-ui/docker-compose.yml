@@ -1,0 +1,9 @@
+version: '3'
+services:
+  registry-ui:
+    image: joxit/docker-registry-ui
+    environment:
+      - REGISTRY_URL=https://register.kacpersledz.win/
+      - DELETE_IMAGES=true
+    ports:
+      - "5001:80"

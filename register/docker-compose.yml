@@ -3,23 +3,15 @@ version: '3'
 services:
   registry:
     image: registry:2
-    #ports:
-    #- "5000:5000"
-    environment:
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
-      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+    ports:
+      - "5000:5000"
+    # environment:
+    #   REGISTRY_AUTH: htpasswd
+    #   REGISTRY_AUTH_HTPASSWD_REALM: Registry
+    #   REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+    #   REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
     volumes:
       - ./auth:/auth
       - ./data:/data
+      - ./config.yml:/etc/docker/registry/config.yml
     restart: unless-stopped
-  nginx:
-    image: nginx:1-alpine
-    ports:
-      - "5000:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - registry
-

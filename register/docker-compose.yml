@@ -28,6 +28,7 @@ services:
       - DELETE_IMAGES=true
     depends_on:
       - registry
+    restart: unless-stopped
     networks:
       - registry-ui-net
 
